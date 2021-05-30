@@ -10,7 +10,9 @@ def WriteToFile(string):     #this overwrites everything that is currently in th
 
 
 rootdir = 'C:/Users/matve/Documents/AmazonCppFileSystem'
-fileList = []
+headerSourceList = []
+headerNameList = []
+
 
 for subdir, dirs, files in os.walk(rootdir):
     for file in files:
@@ -19,6 +21,8 @@ for subdir, dirs, files in os.walk(rootdir):
 
         for header in valid_headers:
             if header in file:
-                fileList += file
+                headerSourceList.append(os.path.join(subdir, file))
+                headerNameList.append(file)
 
-print(fileList)
+
+print(headerSourceList, headerNameList)
