@@ -1,7 +1,7 @@
 import os
 
-valid_headers = ['.h']
-valid_sources = ['.cpp']
+valid_headers = ['.h', '.hh', '.hpp']
+valid_sources = ['.c', '.cc', '.cpp']
 
 rootdir = 'C:/Users/matve/Documents/AmazonCppFileSystem'
 folders = []
@@ -24,14 +24,14 @@ def init():
                 print(os.path.join(subdir, file)[len(rootdir):])
 
                 for h in valid_headers:
-                    if h in file:
+                    if (h in file) and ("." not in file[:len(file)-len(h)]): #this checks whether or not it chooses a smaller h than needed for a file. Ex: rand.hh will trigger with ".h" AND with ".hh"
                         headerSourceList.append(os.path.join(subdir, file)[len(rootdir):])
-                        headerNameList.append(file[:len(file)-2]+"_h")
+                        headerNameList.append(file[:len(file)-len(h)]+"_"+h[1:])
 
                 for cpp in valid_sources:
-                    if cpp in file:
+                    if (cpp in file) and ("." not in file[:len(file)-len(cpp)]): #this checks whether or not it chooses a smaller cpp than needed for a file. Ex: rand.cpp will trigger with ".c" AND with ".cpp"
                         cppSourceList.append(os.path.join(subdir, file)[len(rootdir):])
-                        cppNameList.append(file[:len(file)-4]+"_cpp")
+                        cppNameList.append(file[:len(file)-len(cpp)]+"_"+cpp[1:])
 
 
 def create_cluster(name, fileNameList):
