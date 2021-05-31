@@ -1,9 +1,14 @@
 digraph {
 	rankdir=LR
 
-	subgraph cluster_0 {
-		label="Header Files";
-		ball; camera; matrix_operations; vector; 
+	subgraph cluster_header {
+		label="header";
+		ball_h; camera_h; matrix_operations_h; vector_h; 
+	}
+
+	subgraph cluster_sources {
+		label="sources";
+		camera_cpp; main_cpp; matrix_operations_cpp; vector_cpp; what_cpp; 
 	}
 
 }
