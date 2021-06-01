@@ -2,6 +2,7 @@ import os
 
 valid_headers = ['.h', '.hh', '.hpp']
 valid_sources = ['.c', '.cc', '.cpp', '.py']
+valid_extensions = valid_headers[0] + valid_sources[2]
 
 rootdir = 'C:/Users/matve/Documents/AmazonCppFileSystem'
 folders = []
@@ -10,7 +11,32 @@ headerNameList = []
 fileSourceList = []
 fileNameList = []
 
+def get_extension(path):
+	""" Return the extension of the file targeted by path. """
+	return path[path.rfind('.'):]
 
+def find_all_files(path, recursive=True):
+	"""
+	Return a list of all the files in the folder.
+	If recursive is True, the function will search recursively.
+	"""
+	files = []
+	cluster = ""
+	for entry in os.scandir(path):
+		if entry.is_dir() and recursive:
+			#create cluster with name entry
+			cluster += "\n\tsubgraph cluster_"+str(entry.path)+" {\n\t\tlabel=\""+str(entry.path)+"\";\n\t\t"
+
+			files += find_all_files(entry.path)
+
+			#add }
+			cluster += "\n}"
+		elif get_extension(entry.path) in valid_extensions:
+			#add to cluster
+			cluster += str(entry.path) + "; "
+
+			files.append(entry.path)
+	return cluster
 
 def WriteToFile(string):     #this overwrites everything that is currently in the file
     f = open("pipe.dot", 'w')
@@ -46,10 +72,10 @@ def init():
 
             if ".git" not in subdir and (extension in valid_headers or extension in valid_sources):
                 path = os.path.join(subdir, file)[len(rootdir):]
-                print(path)
+                #print(path)
                 head_tail = os.path.split(path)
 
-                print(head_tail)
+                #print(head_tail)
                 head = head_tail[0]
                 tail = head_tail[1]
 
@@ -69,12 +95,9 @@ def main():
     res = ""
     res += "digraph {\n\trankdir=LR\n\n"
 
-    init()
+    res += find_all_files(rootdir)
 
-    print(folders)
-
-    res += "}"
+    res += "\n}"
     WriteToFile(res)
-
 
 main()

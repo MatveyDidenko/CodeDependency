@@ -1,4 +1,21 @@
 digraph {
 	rankdir=LR
 
+
+	subgraph cluster_C:/Users/matve/Documents/AmazonCppFileSystem\.git {
+		label="C:/Users/matve/Documents/AmazonCppFileSystem\.git";
+		
+}
+	subgraph cluster_C:/Users/matve/Documents/AmazonCppFileSystem\images {
+		label="C:/Users/matve/Documents/AmazonCppFileSystem\images";
+		
+}
+	subgraph cluster_C:/Users/matve/Documents/AmazonCppFileSystem\secondary {
+		label="C:/Users/matve/Documents/AmazonCppFileSystem\secondary";
+		
+}
+	subgraph cluster_C:/Users/matve/Documents/AmazonCppFileSystem\src {
+		label="C:/Users/matve/Documents/AmazonCppFileSystem\src";
+		
+}
 }

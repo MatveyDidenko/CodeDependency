@@ -1,0 +1,55 @@
+strict digraph {
+
+	ball_h [color=green]
+  main_cpp [color=blue]
+	vector_hh [color=green]
+	vector_cpp [color=blue]
+
+
+	subgraph "cluster_C:\Users\matve\Documents\AmazonCppFileSystem\src\insideFolder" {
+	label = "insideFolder"
+		camera_cpp [color=blue]
+		camera_h [color=green]
+		what_cpp [color=blue]
+	}
+
+	subgraph "cluster_C:\Users\matve\Documents\AmazonCppFileSystem\src\sourceTwo" {
+	  label = "sourceTwo"
+		subgraph "cluster_C:\Users\matve\Documents\AmazonCppFileSystem\src\sourceTwo\sourceThree" {
+		label = "sourceThree"
+
+		subgraph "cluster_C:\Users\matve\Documents\AmazonCppFileSystem\src\sourceTwo\sourceThree\level4" {
+	  	label = "level4"
+			matrix_operations_h [color=green]
+			matrix_operations_cpp [color=blue]
+		}
+		level3_cc [color=blue]
+		level3_h [color=green]
+		}
+
+		what_cpp_ [color=blue]
+		what_hpp [color=green]
+	}
+
+	#links
+
+	ball_h -> vector_hh
+	main_cpp -> vector_hh
+	main_cpp -> camera_h
+	main_cpp -> matrix_operations_h
+	main_cpp -> ball_h
+	camera_h -> matrix_operations_h
+	matrix_operations_cpp -> matrix_operations_h
+	camera_cpp -> camera_h
+	camera_h -> vector_hh
+	camera_h -> ball_h
+	what_cpp -> matrix_operations_h
+	what_cpp -> camera_h
+	what_cpp_ -> matrix_operations_h
+	what_cpp_ -> what_hpp
+	what_hpp -> level3_h
+	level3_cc -> matrix_operations_h
+  level3_cc -> vector_hh
+	vector_cpp -> vector_hh
+
+}
