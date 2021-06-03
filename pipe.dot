@@ -16,6 +16,23 @@ ball_h;
 		label="level4";
 		matrix_operations_cpp; matrix_operations_h; 
 }
-}what_cpp; what_hpp; 
-}vector_cpp; vector_hh; 
+}what_cpp_; what_hpp; 
+}vector_cpp; vector_hh; ball_h -> vector_hh;
+camera_cpp -> camera_h;
+camera_h -> matrix_operations_h;
+camera_h -> vector_h;
+camera_h -> ball_h;
+what_cpp -> matrix_operations_h;
+what_cpp -> camera_h;
+main_cpp -> vector_h;
+main_cpp -> camera_h;
+main_cpp -> matrix_operations_h;
+main_cpp -> ball_h;
+level3_cc -> matrix_operations_h;
+level3_cc -> vector_hh;
+matrix_operations_cpp -> matrix_operations_h;
+what_cpp_ -> matrix_operations_h;
+what_cpp_ -> what_hpp;
+vector_cpp -> vector_h;
+
 }
