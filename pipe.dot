@@ -1,21 +1,21 @@
 digraph {
 	rankdir=LR
 
-
-	subgraph cluster_C:/Users/matve/Documents/AmazonCppFileSystem\.git {
-		label="C:/Users/matve/Documents/AmazonCppFileSystem\.git";
+ball_h; 
+	subgraph cluster_insideFolder {
+		label="insideFolder";
+		camera_cpp; camera_h; what_cpp; 
+}main_cpp; 
+	subgraph cluster_sourceTwo {
+		label="sourceTwo";
 		
+	subgraph cluster_sourceTwo_sourceThree {
+		label="sourceThree";
+		level3_cc; level3_h; 
+	subgraph cluster_sourceTwo_sourceThree_level4 {
+		label="level4";
+		matrix_operations_cpp; matrix_operations_h; 
 }
-	subgraph cluster_C:/Users/matve/Documents/AmazonCppFileSystem\images {
-		label="C:/Users/matve/Documents/AmazonCppFileSystem\images";
-		
-}
-	subgraph cluster_C:/Users/matve/Documents/AmazonCppFileSystem\secondary {
-		label="C:/Users/matve/Documents/AmazonCppFileSystem\secondary";
-		
-}
-	subgraph cluster_C:/Users/matve/Documents/AmazonCppFileSystem\src {
-		label="C:/Users/matve/Documents/AmazonCppFileSystem\src";
-		
-}
+}what_cpp; what_hpp; 
+}vector_cpp; vector_hh; 
 }
