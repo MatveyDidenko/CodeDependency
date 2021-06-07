@@ -1,27 +1,65 @@
 import os
-import argparse
+import optparse
+
+#TODO consider differnt number of spaces
+include_notation = "#include \""
 
 valid_headers = ['.h', '.hh', '.hpp']
-valid_sources = ['.c', '.cc', '.cpp', '.py']
+valid_sources = ['.c', '.cc', '.cpp']
 valid_extensions = valid_headers + valid_sources
 
-rootdir = 'C:\\Users\\matve\\Documents\\AmazonCppFileSystem\\src'
+parser = optparse.OptionParser()
+
+parser.add_option('-s', '--source',
+    action="store", dest="main_folder",
+    help="Main folder that contains the secondary folder", default="src")
+
+parser.add_option('-c', '--secondary',
+    action="store", dest="source_folder",
+    help="The secondary folder that contains the dir that needs to be structured", default="src")
+
+parser.add_option('-o', '--output',
+    action="store", dest="dot_file",
+    help="DOT file with source dependency graph", default="src.dot")
+
+options, args = parser.parse_args()
+
+main_folder = options.main_folder
+rootdir = options.source_folder
+output_path = options.dot_file
+
 dot_file = ""
+
 files = {}
 
 def strip_cluster(path):
-    return path[len(rootdir):].replace(os.sep, "_").replace(".", "_")
+    return path[len(rootdir):].replace(os.sep, "_").replace("-", "_").replace(".", "_")
 
 def strip_file(path):
     head_tail = os.path.split(path)
-    return path[len(head_tail[0])+1:].replace(".", "_")
+    return path[len(head_tail[0])+1:].replace(".", "_").replace("-", "_")
 
 def strip_label(path):
-    return path[path.rfind("\\")+1:]
+    return path[len(rootdir):]
 
 def get_extension(path):
     """ Return the extension of the file targeted by path. """
     return path[path.rfind('.'):]
+
+def get_list_of_includes(path):
+    # parse file cpp or h to get list of includes
+    # add to global dictionary with unique path
+    file = open(path, 'r')
+    lines = file.readlines()
+
+    list_of_includes = []
+
+    for line in lines:
+        if include_notation in line:
+            include_file = line[len(include_notation)-1:line.rfind("\"", 2)]
+            list_of_includes.append(strip_file(include_file).replace(".", "_"))
+
+    return list_of_includes
 
 def connections(dict):
     connections_dot = "\n\n"
@@ -52,21 +90,10 @@ def find_all_files(path, recursive=True):
             stripped_file = strip_file(str(entry.path))
 
             #if there is a file with the same name as another file, we have to add something that makes it different in order for the .dot file to show it
-            while stripped_file in dot_file:
+            while stripped_file in files:
                 stripped_file += "_"
 
-            # parse file cpp or h to get list of includes
-            # add to global dictionary with unique path
-            file = open(entry.path, 'r')
-            lines = file.readlines()
-            include_notation = "#include \""
-            list_of_includes = []
-
-            for line in lines:
-                if include_notation in line:
-                    list_of_includes.append(line[len(include_notation):].replace("\"", "").replace(".", "_").replace("\n", ""))
-
-            files[stripped_file] = list_of_includes
+            files[stripped_file] = get_list_of_includes(entry.path)
 
             #add to dot_file
             if get_extension(entry.path) in valid_headers:
@@ -93,8 +120,4 @@ def graph(path, output_path):
     WriteToFile(res, output_path)
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('folder', help='Path to the folder to scan')
-    parser.add_argument('output', help='Path of the output file(.dot file)')
-    args = parser.parse_args()
-    graph(args.folder, args.output)
+    graph(rootdir, output_path)
